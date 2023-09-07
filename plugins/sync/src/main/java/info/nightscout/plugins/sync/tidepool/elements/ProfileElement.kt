@@ -5,10 +5,11 @@ import info.nightscout.core.profile.ProfileSealed
 import info.nightscout.database.entities.EffectiveProfileSwitch
 import info.nightscout.interfaces.profile.Profile
 import info.nightscout.plugins.sync.tidepool.comm.TidepoolUploader
+import info.nightscout.shared.interfaces.ProfileUtil
 import info.nightscout.shared.utils.DateUtil
 import java.util.UUID
 
-class ProfileElement(ps: EffectiveProfileSwitch, serialNumber: String, dateUtil: DateUtil)
+class ProfileElement(ps: EffectiveProfileSwitch, serialNumber: String, dateUtil: DateUtil, profileUtil: ProfileUtil)
     : BaseElement(ps.timestamp, UUID.nameUUIDFromBytes(("AAPS-profile" + ps.timestamp).toByteArray()).toString(), dateUtil) {
 
     @Expose
@@ -46,7 +47,7 @@ class ProfileElement(ps: EffectiveProfileSwitch, serialNumber: String, dateUtil:
         for (hour in 0..23) {
             val seconds = hour * 3600
             basalSchedules.Normal.add(BasalRate(seconds * 1000, profile.getBasalTimeFromMidnight(seconds)))
-            bgTargets.Normal.add(Target(seconds * 1000, Profile.toMgdl((((profile.getTargetLowMgdlTimeFromMidnight(seconds) + profile.getTargetLowMgdlTimeFromMidnight(seconds))) / 2)).toInt()))
+            bgTargets.Normal.add(Target(seconds * 1000, profileUtil.convertToMgdlDetect((((profile.getTargetLowMgdlTimeFromMidnight(seconds) + profile.getTargetLowMgdlTimeFromMidnight(seconds))) / 2)).toInt()))
             carbRatios.Normal.add(Ratio(seconds * 1000, profile.getIcTimeFromMidnight(seconds).toInt()))
             insulinSensitivities.Normal.add(Ratio(seconds * 1000, profile.getIsfMgdlTimeFromMidnight(seconds).toInt()))
         }
