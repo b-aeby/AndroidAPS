@@ -1,13 +1,24 @@
-object Versions {
+object Libs {
 
-    const val kotlin = "1.9.10"
+    object Kotlin {
+        const val kotlin = "1.9.10"
+
+    }
+    object Dagger {
+        const private val dagger = "2.48"
+        const val androidProcesssor = "com.google.dagger:dagger-android-processor:$dagger"
+        const val compiler = "com.google.dagger:dagger-compiler:$dagger"
+    }
+
+    object Rx {
+        const val rxDogTag = "com.uber.rxdogtag2:rxdogtag:2.0.2"
+    }
     const val core = "1.10.1"
     const val rxjava = "3.1.7"
     const val rxandroid = "3.0.2"
     const val rxkotlin = "3.0.1"
     const val room = "2.5.2"
     const val lifecycle = "2.6.2"
-    const val dagger = "2.48"
     const val coroutines = "1.7.3"
     const val activity = "1.7.2"
     const val fragmentktx = "1.6.1"
